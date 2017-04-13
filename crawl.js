@@ -1,5 +1,10 @@
 var stage, queue;
 
+ const ARROW_KEY_LEFT = 37;
+    const ARROW_KEY_UP = 38;
+    const ARROW_KEY_RIGHT = 39;
+    const ARROW_KEY_DOWN = 40;
+
 function preload() {
     queue = new createjs.LoadQueue();
     queue.addEventListener("complete", init);
@@ -13,6 +18,10 @@ function init(){
     startGame();
     alert("Asdads");
     whut();
+
+    var wiz = new Wizard('#0F0');
+    stage.addChildren(wiz);
+    wiz.addEventListener()
 }
 
 function startGame() {
@@ -21,4 +30,8 @@ function startGame() {
         stage.update();
     });
     
+}
+
+function move(){
+
 }
