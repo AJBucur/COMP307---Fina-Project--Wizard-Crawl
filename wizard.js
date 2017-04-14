@@ -15,7 +15,7 @@
     }
     function start() {
         padel = new createjs.Shape();
-        padel.graphics.beginFill('#0000FF').drawCircle(0, 0, 10, 20);
+        padel.graphics.beginFill('#00FF00').drawCircle(0, 0, 20, 20);
         padel.width = 20;
         padel.x = padel.nextX = 0;
         padel.y = stage.canvas.height - 20;
