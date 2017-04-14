@@ -1,4 +1,3 @@
-    
     const ARROW_KEY_LEFT = 65;
     const ARROW_KEY_RIGHT = 68;
     const ARROW_KEY_DOWN = 83;
@@ -17,7 +16,7 @@
     function start() {
         padel = new createjs.Shape();
         padel.graphics.beginFill('#0000FF').drawCircle(0, 0, 10, 20);
-        padel.width = 100;
+        padel.width = 20;
         padel.x = padel.nextX = 0;
         padel.y = stage.canvas.height - 20;
         stage.addChild(padel);
