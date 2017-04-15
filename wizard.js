@@ -1,8 +1,13 @@
-    const ARROW_KEY_LEFT = 65;
-    const ARROW_KEY_RIGHT = 68;
-    const ARROW_KEY_DOWN = 83;
-    const ARROW_KEY_UP = 87;
+    const ARROW_KEY_A = 65;
+    const ARROW_KEY_D = 68;
+    const ARROW_KEY_S = 83;
+    const ARROW_KEY_W = 87;
+    const ARROW_KEY_LEFT = 37;
+    const ARROW_KEY_RIGHT = 39;
+    const ARROW_KEY_DOWN = 40;
+    const ARROW_KEY_UP = 38;
     
+    var enemy;
 
     var stage,padel;
     var leftKeyDown,rightKeyDown,downKeyDown,upKeyDown = false;
@@ -20,6 +25,11 @@
         padel.x = padel.nextX = 0;
         padel.y = stage.canvas.height - 20;
         stage.addChild(padel);
+
+        enemy = new Enemy('#00F');
+        enemy.x = enemy.y = 300;
+        stage.addChild(enemy);
+
         //handle keys
         window.onkeydown = movePadel;
         window.onkeyup = stopPadel;
@@ -28,15 +38,19 @@
         e = !e ? window.event : e;
         switch (e.keyCode) {
             case ARROW_KEY_LEFT:
+            case ARROW_KEY_A:
                 leftKeyDown = true;
                 break;
             case ARROW_KEY_RIGHT:
+            case ARROW_KEY_D:
                 rightKeyDown = true;
                 break;
             case ARROW_KEY_DOWN:
+            case ARROW_KEY_S:
                 downKeyDown = true;
                 break;
             case ARROW_KEY_UP:
+            case ARROW_KEY_W:
                 upKeyDown = true;
                 break;
         }
@@ -44,16 +58,20 @@
     function stopPadel(e) {
         e = !e ? window.event : e;
         switch (e.keyCode) {
-            case 65:
+            case ARROW_KEY_LEFT:
+            case ARROW_KEY_A:
                 leftKeyDown = false;
                 break;
-            case 68:
+            case ARROW_KEY_RIGHT:
+            case ARROW_KEY_D:
                 rightKeyDown = false;
                 break;
-            case 87:
+            case ARROW_KEY_UP:
+            case ARROW_KEY_W:
                 upKeyDown = false;
                 break;
-            case 83:
+            case ARROW_KEY_DOWN:
+            case ARROW_KEY_S:
                 downKeyDown = false;
                 break;
         }
@@ -73,7 +91,8 @@
                 nextX = stage.canvas.width - padel.width;
             }
         }
-        else if(upKeyDown) {
+
+        if(upKeyDown) {
             nextY = padel.y - 10;
         }
         else if(downKeyDown) {
@@ -90,5 +109,6 @@
     function tick(e) {
         update();
         render();
+        enemy.followPlayer(padel);
         stage.update();
     }
