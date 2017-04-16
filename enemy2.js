@@ -10,11 +10,10 @@
     EnemyTower.prototype.speed = 300;
     EnemyTower.prototype.initialize = function(color) {
         this.Shape_initialize();
-        this.graphics.beginFill(color).drawRect(0,0,20, 20);
+        this.graphics.beginFill(color).drawRect(0,0,50, 50);
     }
     
     EnemyTower.prototype.shoot = function(){
-        
     }
 
     EnemyTower.prototype.die = function(){

@@ -1,5 +1,7 @@
 (function () {
    
+    window.game = window.game || {};
+
     var Orb = function (color, target, startPos) {
         this.target = target;
         this.startPos = startPos;

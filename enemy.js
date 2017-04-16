@@ -8,6 +8,8 @@
     Enemy.prototype.Shape_initialize = Enemy.prototype.initialize;
     Enemy.prototype.health = 1;
     Enemy.prototype.speed = 500;
+    Enemy.prototype.isDead = false;
+
     Enemy.prototype.initialize = function(color) {
         this.Shape_initialize();
         this.graphics.beginFill(color).drawCircle(0,0,20);
