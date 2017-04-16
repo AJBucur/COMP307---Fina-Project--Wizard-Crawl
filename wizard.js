@@ -38,9 +38,9 @@ function start() {
     stage.addChild(enemy);
 
     stage.on("stagemousedown", function (e){
-        var bullet = new Orb('#F00', new createjs.Point (e.stageX, e.stageY));
-        bullet.x = padel.x;
-        bullet.y = padel.y;
+        var bullet = new Orb('#F00', new createjs.Point (e.stageX, e.stageY), 
+            new createjs.Point (padel.x, padel.y));
+        console.log(bullet.x, bullet.y);
         bullets.push(bullet);
         stage.addChild(bullet)
     });
