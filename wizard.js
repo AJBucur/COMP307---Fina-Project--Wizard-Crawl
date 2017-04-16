@@ -42,7 +42,13 @@ function start() {
     enemy2.y = 50;
     stage.addChild(enemy2);
 
-    setInterval(3000, enemy2.shoot());
+    setInterval(function (e){
+        var bullet = new Orb('#00F', new createjs.Point (padel.x, padel.y), 
+            new createjs.Point (enemy2.x, enemy2.y));
+        console.log(bullet.x, bullet.y);
+        bullets.push(bullet);
+        stage.addChild(bullet);
+    }, 1800);
 
     stage.on("stagemousedown", function (e){
         var bullet = new Orb('#F00', new createjs.Point (e.stageX, e.stageY), 
