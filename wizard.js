@@ -9,6 +9,7 @@ const ARROW_KEY_UP = 38;
 
 var enemy;
 var bullets = [];
+var ebullets = [];
 var stage,padel;
 var leftKeyDown,rightKeyDown,downKeyDown,upKeyDown = false;
 
@@ -43,10 +44,10 @@ function start() {
     stage.addChild(enemy2);
 
     setInterval(function (e){
-        var bullet = new Orb('#00F', new createjs.Point (padel.x, padel.y), 
+        var ebullet = new Orb('#00F', new createjs.Point (padel.x, padel.y), 
             new createjs.Point (enemy2.x, enemy2.y));
-        bullets.push(bullet);
-        stage.addChild(bullet);
+        ebullets.push(ebullet);
+        stage.addChild(ebullet);
     }, 1800);
 
     stage.on("stagemousedown", function (e){
@@ -149,16 +150,35 @@ function tick(e) {
     for (var i = 0; i <bullets.length; i++){
         bullets[i].move();
         if (bullets[i].x < 0 || bullets[i].x > stage.canvas.width){
-            
+            stage.removeChild(bullets[i]);
             bullets.splice(i,1);
             // console.log("dead bullet");
         }
 
          if (bullets[i].y < 0 || bullets[i].y > stage.canvas.height){
-            
             bullets.splice(i,1);
             // console.log("dead bullet");
         }
+
+        var pt = enemy2.globalToLocal(bullets[i].x, bullets[i].y);
+
+        if (enemy2.hitTest(pt.x, pt.y)){
+            console.log("hit");
+        }
+    }
+
+    for (var i = 0; i <ebullets.length; i++){
+        ebullets[i].move();
+        if (ebullets[i].x < 0 || ebullets[i].x > stage.canvas.width){
+            ebullets.splice(i,1);
+            // console.log("dead bullet");
+        }
+
+         if (ebullets[i].y < 0 || ebullets[i].y > stage.canvas.height){
+            ebullets.splice(i,1);
+            // console.log("dead bullet");
+        }
+
     }
 
     enemy.followPlayer(padel.x, padel.y);

@@ -31,7 +31,7 @@
         this.y = this.startPos.y;
 
         this.alpha = Math.random();
-        this.graphics.beginFill(color).drawCircle(0, 0, 5);
+        this.graphics.beginStroke('#FFF').beginFill(color).drawCircle(0, 0, 5);
         this.on('tick', this.pulse);
 
         console.log(this.parent);
