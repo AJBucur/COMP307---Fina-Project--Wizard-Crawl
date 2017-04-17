@@ -9,7 +9,7 @@ function preload() {
     queue = new createjs.LoadQueue();
     queue.addEventListener("complete", init);
     queue.loadManifest([]);
-    alert("asdkfaksjdfjas");
+    // alert("asdkfaksjdfjas");
     init();
 }
 

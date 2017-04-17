@@ -28,7 +28,7 @@ function start() {
     padel.x = stage.canvas.width/2;
     padel.y = stage.canvas.height/2;
 
-
+   
 
     stage.addChild(padel);
 
@@ -38,11 +38,24 @@ function start() {
     enemy.x = enemy.y = 300;
     stage.addChild(enemy);
 
-    stage.on("stagemousedown", function (e){
-        var bullet = new Orb('#F00', new createjs.Point (e.stageX, e.stageY));
-        bullet.x = padel.x;
-        bullet.y = padel.y;
+    enemy2 = new EnemyTower('#00F');
+    enemy2.x = 300;
+    enemy2.y = 50;
+    stage.addChild(enemy2);
+
+    setInterval(function (e){
+        var bullet = new Orb('#00F', new createjs.Point (padel.x, padel.y), 
+            new createjs.Point (enemy2.x, enemy2.y));
         bullets.push(bullet);
+        stage.addChild(bullet);
+    }, 1800);
+
+    stage.on("stagemousedown", function (e){
+        var bullet = new Orb('#F00', new createjs.Point (e.stageX, e.stageY), 
+            new createjs.Point (padel.x, padel.y));
+        console.log(bullet.x, bullet.y);
+        bullets.push(bullet);
+<<<<<<< HEAD
         stage.addChild(bullet)
 
         /*for (var i = 1; i <= 10; i++) {
@@ -52,6 +65,10 @@ function start() {
             }
         }*/
     })
+=======
+        stage.addChild(bullet);
+    });
+>>>>>>> 835858f5d5f13b11ba3b786e51e9115ab4c0a8a2
 
     //handle keys
     window.onkeydown = movePadel;
@@ -144,9 +161,20 @@ function tick(e) {
     
     for (var i = 0; i <bullets.length; i++){
         bullets[i].move();
+        if (bullets[i].x < 0 || bullets[i].x > stage.canvas.width){
+            
+            bullets.splice(i,1);
+            // console.log("dead bullet");
+        }
+
+         if (bullets[i].y < 0 || bullets[i].y > stage.canvas.height){
+            
+            bullets.splice(i,1);
+            // console.log("dead bullet");
+        }
     }
 
-    enemy.followPlayer(padel);
+    enemy.followPlayer(padel.x, padel.y);
     stage.update();
 }
 
