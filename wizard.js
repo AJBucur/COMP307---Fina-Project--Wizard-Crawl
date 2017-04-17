@@ -9,6 +9,7 @@ const ARROW_KEY_UP = 38;
 
 var enemy;
 var bullets = [];
+//var bulletTime = 2;
 var stage,padel;
 var leftKeyDown,rightKeyDown,downKeyDown,upKeyDown = false;
 
@@ -43,7 +44,14 @@ function start() {
         bullet.y = padel.y;
         bullets.push(bullet);
         stage.addChild(bullet)
-    });
+
+        /*for (var i = 1; i <= 10; i++) {
+        
+        if (bullet >= i) {
+            bullet.removeChildAt[i];
+            }
+        }*/
+    })
 
     //handle keys
     window.onkeydown = movePadel;
