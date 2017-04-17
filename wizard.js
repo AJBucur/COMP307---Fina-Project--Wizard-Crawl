@@ -58,17 +58,11 @@ function start() {
 <<<<<<< HEAD
         stage.addChild(bullet)
 
-        /*for (var i = 1; i <= 10; i++) {
-        
-        if (bullet >= i) {
-            bullet.removeChildAt[i];
-            }
-        }*/
     })
 =======
         stage.addChild(bullet);
     });
->>>>>>> 835858f5d5f13b11ba3b786e51e9115ab4c0a8a2
+//>>>>>>> 835858f5d5f13b11ba3b786e51e9115ab4c0a8a2
 
     //handle keys
     window.onkeydown = movePadel;
