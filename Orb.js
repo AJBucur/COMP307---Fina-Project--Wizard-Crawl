@@ -34,6 +34,7 @@
         this.graphics.beginFill(color).drawCircle(0, 0, 5);
         this.on('tick', this.pulse);
 
+        console.log(this.parent);
         
         this.trackPos();        
 
@@ -50,10 +51,10 @@
         var dy = this.target.y - this.y;
         var radians = Math.atan2(dy, dx);
 
-        this. vx = Math.cos(radians) * this.speed;
-        this. vy = Math.sin(radians) * this.speed;
+        this.vx = Math.cos(radians) * this.speed;
+        this.vy = Math.sin(radians) * this.speed;
 
-        console.log(dx + " " +  dy + " " +  this.x + " "  + this.y);
+        // console.log(dx + " " +  dy + " " +  this.x + " "  + this.y);
     }
     
     p.pulse = function () {

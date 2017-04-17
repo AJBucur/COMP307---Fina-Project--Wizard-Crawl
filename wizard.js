@@ -45,7 +45,6 @@ function start() {
     setInterval(function (e){
         var bullet = new Orb('#00F', new createjs.Point (padel.x, padel.y), 
             new createjs.Point (enemy2.x, enemy2.y));
-        console.log(bullet.x, bullet.y);
         bullets.push(bullet);
         stage.addChild(bullet);
     }, 1800);
@@ -57,8 +56,6 @@ function start() {
         bullets.push(bullet);
         stage.addChild(bullet);
     });
-
-    
 
     //handle keys
     window.onkeydown = movePadel;
@@ -154,17 +151,17 @@ function tick(e) {
         if (bullets[i].x < 0 || bullets[i].x > stage.canvas.width){
             
             bullets.splice(i,1);
-            console.log("dead bullet");
+            // console.log("dead bullet");
         }
 
          if (bullets[i].y < 0 || bullets[i].y > stage.canvas.height){
             
             bullets.splice(i,1);
-            console.log("dead bullet");
+            // console.log("dead bullet");
         }
     }
 
-    enemy.followPlayer(padel);
+    enemy.followPlayer(padel.x, padel.y);
     stage.update();
 }
 
