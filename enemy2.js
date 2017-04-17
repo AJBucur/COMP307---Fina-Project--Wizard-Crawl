@@ -12,7 +12,7 @@
     
     EnemyTower.prototype.initialize = function(color) {
         this.Shape_initialize();
-        this.graphics.beginFill(color).drawRect(0,0,50, 50);
+        this.graphics.beginStroke('#FFF').beginFill(color).drawRect(0,0,50, 50);
     }
     
    
