@@ -238,6 +238,16 @@ function gotHit(){
         playerHealth--;
         isInv = false;
         lives.text =  "Lives: " + playerHealth;
+
+        if (playerHealth < 1) {
+        var text = new createjs.Text("Game Over", "100px Arial", "#ff7700");
+        text.textBaseline = "middle";
+        text.textAlign = "center";
+        text.x = stage.canvas.width / 2;
+        text.y = stage.canvas.height / 2;
+        stage.addChild(text);
+        }
+
     }, 3000);
     
 }
