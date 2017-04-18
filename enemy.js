@@ -1,10 +1,10 @@
 (function () {
     window.game = window.game || {};
    
-    var Enemy = function(color) {
-        this.initialize(color);
+    var Enemy = function(image) {
+        this.initialize(image);
     }
-    Enemy.prototype = new createjs.Shape();
+    Enemy.prototype = new createjs.Bitmap();
     Enemy.prototype.Shape_initialize = Enemy.prototype.initialize;
     Enemy.prototype.health = 1;
     Enemy.prototype.speed = 2.1;
@@ -14,9 +14,10 @@
     Enemy.prototype.vy = 0;
     Enemy.prototype.isDead = false;
 
-    Enemy.prototype.initialize = function(color) {
+    Enemy.prototype.initialize = function(image) {
         this.Shape_initialize();
-        this.graphics.beginStroke('#FFF').beginFill(color).drawCircle(0,0,20);
+        //this.graphics.beginStroke('#FFF').beginFill(color).drawCircle(0,0,20);
+        this.image = image;
     }
     Enemy.prototype.followPlayer = function(playerPosX, playerPosY){
         // createjs.Tween.get(this).to({x:playerPos.x, y:playerPos.y},this.speed);
