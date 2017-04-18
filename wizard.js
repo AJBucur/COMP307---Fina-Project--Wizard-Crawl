@@ -7,40 +7,58 @@ const ARROW_KEY_RIGHT = 39;
 const ARROW_KEY_DOWN = 40;
 const ARROW_KEY_UP = 38;
 
+window.game = window.game || {};
+
 var playerHealth = 3;
 var lives;
 var enemy;
+var enemies = [];
+var enemies2 = [];
 var queue;
 var isInv = false;
 var bullets = [];
 var ebullets = [];
-var stage,padel;
+var stage,wizard;
 var leftKeyDown,rightKeyDown,downKeyDown,upKeyDown = false;
 
 function preload() {
     
     var manifest = [
         {src:"assets/orb.mp3", id:"orbSound"},
-        {src:"assets/music.mp3", id:"music"}
+        {src:"assets/music.mp3", id:"music"},
+        {src:"assets/tower.png", id:"tower"},
+        {src:"assets/wizard.png", id:"wizard"},
+        {src:"assets/monster.png", id:"monster"}
     ];
     queue = new createjs.LoadQueue();
     queue.installPlugin(createjs.Sound);
     queue.loadManifest(manifest);
-    queue.addEventListener("complete", init);
+    queue.addEventListener("complete", buildStartMenu);
     //createjs.Sound.registerManifest(manifest, "sounds/");
 }
 
-
 function init() {
     stage = new createjs.Stage(document.getElementById('canvas'));
-    createjs.Ticker.addEventListener("tick", tick);
-    createjs.Ticker.setFPS(60);
-    start();
+    
+    preload();
+}
+
+function buildStartMenu() {
+    var button = new ui.SimpleButton('PLAY GAME');
+    button.regX = button.width / 2;
+    button.regY = button.height / 2;
+    button.x = canvas.width / 2;
+    button.y = canvas.height / 2;
+    button.on('click', start);
+    stage.addChild(button);
+    stage.update();
 }
 
 function start() {
-
-    // createjs.Sound.play("music",createjs.Sound.INTERRUPT_NONE,0,-1,0,.5,0);
+    createjs.Ticker.addEventListener("tick", tick);
+    createjs.Ticker.setFPS(60);
+    stage.removeAllChildren();
+    createjs.Sound.play("music",createjs.Sound.INTERRUPT_NONE,0,-1,0,.5,0);
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;
 
@@ -52,29 +70,24 @@ function start() {
     stage.addChild(lives);
 
     stage.mouseEventsEnabled = true;
-    padel = new createjs.Shape();
-    padel.graphics.beginStroke('#FFF').beginFill('#00FF00').drawCircle(0, 0, 20, 20);
-    padel.width = padel.height = 20;
-    padel.x = stage.canvas.width/2;
-    padel.y = stage.canvas.height/2;
+    wizard = new createjs.Bitmap(queue.getResult('wizard'));
+    //wizard.graphics.beginStroke('#FFF').beginFill('#00FF00').drawCircle(0, 0, 20, 20);
+    //wizard.width = wizard.height = 20;
+    wizard.x = stage.canvas.width/2;
+    wizard.y = stage.canvas.height/2;
+    stage.addChild(wizard);
 
-   
-
-    stage.addChild(padel);
-
-    //stage.addChild(bullets);
-
-    enemy = new Enemy('#00F');
+    enemy = new Enemy(queue.getResult('monster'));
     enemy.x = enemy.y = 300;
     stage.addChild(enemy);
 
-    enemy2 = new EnemyTower('#00F');
+    enemy2 = new EnemyTower(queue.getResult('tower'));
     enemy2.x = 300;
     enemy2.y = 50;
     stage.addChild(enemy2);
 
     setInterval(function (e){
-        var ebullet = new Orb('#00F', new createjs.Point (padel.x, padel.y), 
+        var ebullet = new Orb('#00F', new createjs.Point (wizard.x, wizard.y), 
             new createjs.Point (enemy2.x, enemy2.y));
         ebullets.push(ebullet);
         stage.addChild(ebullet);
@@ -83,17 +96,17 @@ function start() {
     stage.on("stagemousedown", function (e){
         createjs.Sound.play("orbSound",createjs.Sound.INTERRUPT_NONE,0,0,0,.5,0);
         var bullet = new Orb('#F00', new createjs.Point (e.stageX, e.stageY), 
-            new createjs.Point (padel.x, padel.y));
+            new createjs.Point (wizard.x, wizard.y));
         console.log(bullet.x, bullet.y);
         bullets.push(bullet);
         stage.addChild(bullet);
     });
 
     //handle keys
-    window.onkeydown = movePadel;
-    window.onkeyup = stopPadel;
+    window.onkeydown = movewizard;
+    window.onkeyup = stopwizard;
 }
-function movePadel(e) {
+function movewizard(e) {
     e = !e ? window.event : e;
     switch (e.keyCode) {
         case ARROW_KEY_LEFT:
@@ -114,7 +127,7 @@ function movePadel(e) {
             break;
     }
 }
-function stopPadel(e) {
+function stopwizard(e) {
     e = !e ? window.event : e;
     switch (e.keyCode) {
         case ARROW_KEY_LEFT:
@@ -135,49 +148,66 @@ function stopPadel(e) {
             break;
     }
 }
+
 function update() {
-    var nextX = padel.x;
-    var nextY = padel.y;
+    
+    for (var i = 0; i <enemies2.length; i++){
+        while(enemies2[i].isAlive){
+            setInterval(function (e){
+                var ebullet = new Orb('#00F', new createjs.Point (wizard.x, wizard.y), 
+                new createjs.Point (enemies2[i].x, enemies2[i].y));
+                ebullets.push(ebullet);
+                stage.addChild(ebullet);
+            }, 1800);
+        }
+    }
+    
+    var nextX = wizard.x;
+    var nextY = wizard.y;
     
     if (leftKeyDown) {
-        nextX = padel.x - 10;
-        if(nextX < 0 + padel.width){
-            nextX = 0 + padel.width;
+        nextX = wizard.x - 10;
+        if(nextX < 0 + wizard.width){
+            nextX = 0 + wizard.width;
         }
     }
     else if (rightKeyDown) {
-        nextX = padel.x + 10;
-        if(nextX > stage.canvas.width - padel.width){
-            nextX = stage.canvas.width - padel.width;
+        nextX = wizard.x + 10;
+        if(nextX > stage.canvas.width - wizard.width){
+            nextX = stage.canvas.width - wizard.width;
         }
     }
 
     if(upKeyDown) { 
-        nextY = padel.y - 10; 
-        if (nextY < 0 + padel.height){
-            nextY = 0  + padel.height;
+        nextY = wizard.y - 10; 
+        if (nextY < 0 + wizard.height){
+            nextY = 0  + wizard.height;
         }
         
     }
     else if(downKeyDown) {
-        nextY = padel.y + 10; 
-        if(nextY > stage.canvas.height - padel.height){
-            nextY = stage.canvas.height - padel.height;  
+        nextY = wizard.y + 10; 
+        if(nextY > stage.canvas.height - wizard.height){
+            nextY = stage.canvas.height - wizard.height;  
                     
         }
     }
     
-    padel.nextX = nextX;
-    padel.nextY = nextY;
+    wizard.nextX = nextX;
+    wizard.nextY = nextY;
 }
 function render() {
-    padel.x = padel.nextX;
-    padel.y = padel.nextY;
+    wizard.x = wizard.nextX;
+    wizard.y = wizard.nextY;
 }
 function tick(e) {
     update();
     render();
     
+    if (playerHealth <= 0){
+        gameOverScreen();
+    }
+
     for (var i = 0; i <bullets.length; i++){
         bullets[i].move();
         if (bullets[i].x < 0 || bullets[i].x > stage.canvas.width){
@@ -195,12 +225,14 @@ function tick(e) {
 
         if (enemy.hitTest(pt1.x, pt1.y)){
             console.log("hit");
+            stage.removeChild(enemy);
         }
 
         var pt2 = enemy2.globalToLocal(bullets[i].x, bullets[i].y);
 
         if (enemy2.hitTest(pt2.x, pt2.y)){
             console.log("hit");
+            stage.removeChild(enemy2);
         }
     }
 
@@ -217,9 +249,9 @@ function tick(e) {
         }
 
         if (!isInv){
-            var hitPt = padel.globalToLocal(ebullets[i].x, ebullets[i].y);
+            var hitPt = wizard.globalToLocal(ebullets[i].x, ebullets[i].y);
 
-            if (padel.hitTest(hitPt.x, hitPt.y)){
+            if (wizard.hitTest(hitPt.x, hitPt.y)){
                 isInv = true;
                 gotHit();
                 console.log("got hit");
@@ -227,14 +259,14 @@ function tick(e) {
         }
         
     }
-    enemy.followPlayer(padel.x, padel.y);
+    enemy.followPlayer(wizard.x, wizard.y);
     stage.update();
 }
 
 function gotHit(){
-        padel.alpha = 0.5;
+        wizard.alpha = 0.5;
         setTimeout(function() {
-        padel.alpha = 1;
+        wizard.alpha = 1;
         playerHealth--;
         isInv = false;
         lives.text =  "Lives: " + playerHealth;
@@ -250,4 +282,46 @@ function gotHit(){
 
     }, 3000);
     
+}
+
+function spawnEnemies(){
+    if (enemies.length < 5){
+        var enemy = new Enemy('#00F');
+        enemy.x = enemy.y = 300;
+        enemies.push(enemy);
+        stage.addChild(enemy);
+    }
+
+    if (enemies2.length < 5){
+
+    }
+}
+
+function gameOverScreen(){
+    
+    stage.canvas.width = 750;
+    stage.canvas.height = 300;
+
+    createjs.Sound.removeAllSounds();
+    stage.removeAllChildren();
+    
+    var gameOverText = new createjs.Text("GAME OVER", "16px Arial");
+    gameOverText.textAlign = 'center';
+    gameOverText.textBaseline = 'middle';
+    gameOverText.x = stage.canvas.width / 2;
+    gameOverText.y = 150;
+    stage.addChild(gameOverText);
+
+    var button = new ui.SimpleButton('Return to main', "40px Arial");
+    button.regX = button.width / 2;
+    button.regY = button.height / 2;
+    button.x = canvas.width / 2;
+    button.y = canvas.height / 2;
+    button.on('click', function(e){
+        stage.removeAllChildren();
+        buildStartMenu();
+        console.log("Button clicked");
+    });
+    stage.addChild(button);
+    stage.update();
 }
