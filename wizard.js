@@ -240,7 +240,7 @@ function gotHit(){
         lives.text =  "Lives: " + playerHealth;
 
         if (playerHealth < 1) {
-        var text = new createjs.Text("Game Over", "20px Arial", "#ff7700");
+        var text = new createjs.Text("Game Over", "100px Arial", "#ff7700");
         text.textBaseline = "middle";
         text.textAlign = "center";
         text.x = stage.canvas.width / 2;
