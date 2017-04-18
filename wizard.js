@@ -58,7 +58,7 @@ function start() {
     createjs.Ticker.addEventListener("tick", tick);
     createjs.Ticker.setFPS(60);
     stage.removeAllChildren();
-    // createjs.Sound.play("music",createjs.Sound.INTERRUPT_NONE,0,-1,0,.5,0);
+    createjs.Sound.play("music",createjs.Sound.INTERRUPT_NONE,0,-1,0,.5,0);
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;
 
@@ -289,6 +289,9 @@ function spawnEnemies(){
 
 function gameOverScreen(){
     
+    stage.canvas.width = 750;
+    stage.canvas.height = 300;
+
     createjs.Sound.removeAllSounds();
     stage.removeAllChildren();
     
