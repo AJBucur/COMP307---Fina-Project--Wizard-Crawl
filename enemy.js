@@ -16,7 +16,7 @@
 
     Enemy.prototype.initialize = function(color) {
         this.Shape_initialize();
-        this.graphics.beginFill(color).drawCircle(0,0,20);
+        this.graphics.beginStroke('#FFF').beginFill(color).drawCircle(0,0,20);
     }
     Enemy.prototype.followPlayer = function(playerPosX, playerPosY){
         // createjs.Tween.get(this).to({x:playerPos.x, y:playerPos.y},this.speed);

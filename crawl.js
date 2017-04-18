@@ -5,13 +5,6 @@ var stage, queue;
     //const ARROW_KEY_RIGHT = 39;
     //const ARROW_KEY_DOWN = 40;
 
-function preload() {
-    queue = new createjs.LoadQueue();
-    queue.addEventListener("complete", init);
-    queue.loadManifest([]);
-    // alert("asdkfaksjdfjas");
-    init();
-}
 
 function init(){
     stage = new createjs.Stage(document.getElementById('canvas'));
